@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -10,9 +11,9 @@
 <body>
 <table class="tg">
     <tr>
-        <th width="100">Description</th>
-        <th width="100">Calories</th>
-        <th width="100">DateTime</th>
+        <th width="100">Описание</th>
+        <th width="100">Калории</th>
+        <th width="100">Дата и время</th>
     </tr>
     <c:forEach items="${meals}" var="meal">
         <c:set var="color" value="${meal.exceed?'red':'lightgreen'}"/>
@@ -25,8 +26,11 @@
                                type="both"/>
                 <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }"/>
             </td>
+            <td width="50"><a href="meals?action=edit&id=<c:url value="${meal.id}"/>">Редактировать</a></td>
+            <td width="50"><a href="meals?action=delete&id=<c:url value="${meal.id}"/>">Удалить</a></td>
         </tr>
     </c:forEach>
 </table>
+<p><a href="meals?action=insert">Добавить</a></p>
 </body>
 </html>

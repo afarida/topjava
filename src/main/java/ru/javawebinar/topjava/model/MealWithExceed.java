@@ -17,6 +17,10 @@ public class MealWithExceed {
 
     private final boolean exceed;
 
+    public int getId() {
+        return id;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
