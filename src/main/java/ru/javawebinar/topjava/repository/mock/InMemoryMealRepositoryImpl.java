@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -37,21 +38,20 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id) {
-        Meal meal = repository.values()
-                .stream()
-                .filter(f -> f.getUserId() == AuthorizedUser.id() && id == f.getId())
-                .findFirst().get();
-        if (meal != null)
+        if (get(id) != null)
             return repository.remove(id) != null;
         return false;
     }
 
     @Override
     public Meal get(int id) {
-        return repository.values()
+        Optional<Meal> findMeal = repository.values()
                 .stream()
                 .filter(f -> f.getUserId() == AuthorizedUser.id() && id == f.getId())
-                .findFirst().get();
+                .findFirst();
+        if (!Optional.empty().equals(findMeal))
+            return findMeal.get();
+        return null;
     }
 
     @Override

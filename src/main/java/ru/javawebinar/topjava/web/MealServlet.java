@@ -59,31 +59,29 @@ public class MealServlet extends HttpServlet {
         if (action == null) {
             LOG.info("getAll");
 
-            List<MealWithExceed> mealWithExceeds = null;
-            String fromTimeStr = request.getParameter("fromTime");
-            String toTimeStr = request.getParameter("toTime");
-            if (fromTimeStr != null && toTimeStr != null &&
-                    !fromTimeStr.isEmpty() && !toTimeStr.isEmpty()) {
-                LocalTime fromTime = LocalTime.parse(fromTimeStr);
-                LocalTime toTime = LocalTime.parse(toTimeStr);
-                if (fromTime != null && toTime != null)
-                    mealWithExceeds = MealsUtil.getFilteredWithExceeded(controller.getAll(), fromTime, toTime, MealsUtil.DEFAULT_CALORIES_PER_DAY);
-            }
-            if (mealWithExceeds == null)
-                mealWithExceeds = MealsUtil.getWithExceeded(controller.getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+            LocalDate fromDate = null;
+            LocalDate toDate = null;
+
             String fromDateStr = request.getParameter("fromDate");
             String toDateStr = request.getParameter("toDate");
             if (fromDateStr != null && toDateStr != null &&
                     !fromDateStr.isEmpty() && !toDateStr.isEmpty()) {
-                LocalDate fromDate = LocalDate.parse(fromDateStr);
-                LocalDate toDate = LocalDate.parse(toDateStr);
-                if (fromDate != null && toDate != null)
-                    mealWithExceeds = mealWithExceeds.stream()
-                            .filter(m -> m.getDateTime().toLocalDate().compareTo(fromDate) >= 0 &&
-                                    m.getDateTime().toLocalDate().compareTo(toDate) <= 0)
-                            .collect(Collectors.toList());
+                fromDate = LocalDate.parse(fromDateStr);
+                toDate = LocalDate.parse(toDateStr);
             }
-            request.setAttribute("mealList", mealWithExceeds);
+
+            LocalTime fromTime = null;
+            LocalTime toTime = null;
+
+            String fromTimeStr = request.getParameter("fromTime");
+            String toTimeStr = request.getParameter("toTime");
+            if (fromTimeStr != null && toTimeStr != null &&
+                    !fromTimeStr.isEmpty() && !toTimeStr.isEmpty()) {
+                fromTime = LocalTime.parse(fromTimeStr);
+                toTime = LocalTime.parse(toTimeStr);
+            }
+
+            request.setAttribute("mealList", controller.getFilteredWithExceed(fromDate, toDate, fromTime, toTime));
             request.getRequestDispatcher("/mealList.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {
