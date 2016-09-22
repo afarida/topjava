@@ -17,7 +17,7 @@
 </head>
 <body>
 <form action="meals" method="get">
-    <h2><a href="index.html">Home</a></h2>
+    <h2><a href="home.jsp">Home</a></h2>
     <h3>Meal list</h3>
     <table>
         <tr>

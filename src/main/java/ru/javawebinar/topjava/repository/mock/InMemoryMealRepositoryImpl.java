@@ -29,7 +29,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     public Meal save(Meal meal) {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            meal.setUserId(AuthorizedUser.id());
+            meal.setUserId(1);
         }
         repository.put(meal.getId(), meal);
         return meal;
