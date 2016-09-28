@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.USER_ID;
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
 
 /**
@@ -17,14 +19,22 @@ import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
  */
 public class MealTestData {
 
-    Map<Integer, Meal> meals = new HashMap<>();
+    public static final int MEAL_ID = START_SEQ + 2;
+
+    public static final Map<Integer, Map<Integer, Meal>> MEALS = new HashMap<>();
+
+    public static void start()
     {
-        meals.put(START_SEQ + 4, new Meal(START_SEQ + 4, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
-        meals.put(START_SEQ + 5, new Meal(START_SEQ + 5, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
-        meals.put(START_SEQ + 6, new Meal(START_SEQ + 6, LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
-        meals.put(START_SEQ + 7, new Meal(START_SEQ + 7, LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
-        meals.put(START_SEQ + 8, new Meal(START_SEQ + 8, LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
-        meals.put(START_SEQ + 9, new Meal(START_SEQ + 9, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+        Map<Integer, Meal> userMeal = new HashMap<>();
+        userMeal.put(MEAL_ID, new Meal(MEAL_ID, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
+        userMeal.put(MEAL_ID + 1, new Meal(MEAL_ID + 1, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
+        userMeal.put(MEAL_ID + 5, new Meal(MEAL_ID + 5, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+        Map<Integer, Meal> adminMeal = new HashMap<>();
+        adminMeal.put(MEAL_ID + 2, new Meal(MEAL_ID + 2, LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
+        adminMeal.put(MEAL_ID + 3, new Meal(MEAL_ID + 3, LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
+        adminMeal.put(MEAL_ID + 4, new Meal(MEAL_ID + 4, LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
+        MEALS.put(USER_ID, userMeal);
+        MEALS.put(ADMIN_ID, adminMeal);
     }
 
     public static final ModelMatcher<Meal> MATCHER = new ModelMatcher<>(

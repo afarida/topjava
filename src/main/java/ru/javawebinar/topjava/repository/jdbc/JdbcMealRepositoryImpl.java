@@ -23,7 +23,7 @@ import java.util.List;
 @Repository
 public class JdbcMealRepositoryImpl implements MealRepository {
 
-    private static final BeanPropertyRowMapper ROW_MAPPER = new BeanPropertyRowMapper(Meal.class);
+    private static final BeanPropertyRowMapper ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -52,8 +52,10 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             Number newKey = insertMeal.executeAndReturnKey(map);
             meal.setId(newKey.intValue());
         } else {
+            if (get(meal.getId(), userId) == null)
+                return null;
             namedParameterJdbcTemplate.update("UPDATE meals SET dateTime=:dateTime, description=:description, calories=:calories " +
-                    "WHERE id=:id", map);
+                    "WHERE id=:id AND user_id=:user_id", map);
         }
         return meal;
     }
@@ -76,7 +78,7 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? AND date_trunc('day', datetime) >= date_trunc('day', ?) AND " +
-                "date_trunc('day', datetime) <= date_trunc('day', ?) ORDER BY datetime DESC ", ROW_MAPPER, userId, startDate, endDate);
+        return jdbcTemplate.query("SELECT * FROM meals WHERE datetime >= ? AND datetime <= ? AND user_id=? " +
+                "ORDER BY datetime DESC ", ROW_MAPPER, startDate, endDate, userId);
     }
 }
