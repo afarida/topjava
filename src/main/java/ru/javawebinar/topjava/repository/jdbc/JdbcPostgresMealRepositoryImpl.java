@@ -16,6 +16,7 @@ import java.util.List;
 @Configuration
 @Profile(Profiles.POSTGRES)
 public class JdbcPostgresMealRepositoryImpl extends JdbcMealRepositoryImpl {
+
     @Autowired
     public JdbcPostgresMealRepositoryImpl(DataSource dataSource) {
         super(dataSource);

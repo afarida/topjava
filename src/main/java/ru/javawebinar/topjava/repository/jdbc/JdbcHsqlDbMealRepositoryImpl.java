@@ -18,6 +18,7 @@ import java.util.List;
 @Configuration
 @Profile(Profiles.HSQLDB)
 public class JdbcHsqlDbMealRepositoryImpl extends JdbcMealRepositoryImpl implements MealRepository {
+
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired

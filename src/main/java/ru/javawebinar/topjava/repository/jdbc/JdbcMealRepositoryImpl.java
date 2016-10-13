@@ -44,6 +44,9 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
     public abstract Meal save(Meal meal, int userId);
 
     @Override
+    public abstract List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
+
+    @Override
     public boolean delete(int id, int userId) {
         return jdbcTemplate.update("DELETE FROM meals WHERE id=? AND user_id=?", id, userId) != 0;
     }
@@ -60,7 +63,4 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
         return jdbcTemplate.query(
                 "SELECT * FROM meals WHERE user_id=? ORDER BY date_time DESC", ROW_MAPPER, userId);
     }
-
-    @Override
-    public abstract List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
 }
