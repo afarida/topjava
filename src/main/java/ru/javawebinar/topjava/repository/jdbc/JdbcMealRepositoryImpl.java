@@ -21,7 +21,7 @@ import java.util.List;
  * Date: 26.08.2014
  */
 
-public abstract class JdbcMealRepositoryImpl implements MealRepository {
+public abstract class JdbcMealRepositoryImpl<T> implements MealRepository {
 
     protected static final RowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
@@ -40,7 +40,7 @@ public abstract class JdbcMealRepositoryImpl implements MealRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    abstract Object getDateTime(LocalDateTime dateTime);
+    abstract T getDateTime(LocalDateTime dateTime);
 
     @Override
     public Meal save(Meal meal, int userId) {
